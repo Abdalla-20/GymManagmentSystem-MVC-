@@ -1,8 +1,8 @@
-﻿using GymManagmentSystem.MVC.Models;
+﻿using GymManagmentSystem.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace GymManagmentSystem.MVC.Configurations;
+namespace GymManagmentSystem.DAL.Data.Configurations;
 
 public class PlanConfigurations : IEntityTypeConfiguration<Plan>
 {
@@ -27,4 +27,5 @@ public class PlanConfigurations : IEntityTypeConfiguration<Plan>
                 "DurationDays Between 1 and 365");
         });
     }
+
 }
