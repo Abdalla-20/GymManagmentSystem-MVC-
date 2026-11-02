@@ -9,4 +9,5 @@ public class Plan : BaseEntity
     public int DurationDays { get; set; }
     public decimal Price { get; set; }
     public bool IsActive { get; set; } // soft-delete flag
+    public ICollection<MemberShip> MemberShips { get; set; } = default!;
 }

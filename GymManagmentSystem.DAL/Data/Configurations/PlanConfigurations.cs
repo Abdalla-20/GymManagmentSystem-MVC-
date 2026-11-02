@@ -24,7 +24,7 @@ public class PlanConfigurations : IEntityTypeConfiguration<Plan>
         builder.ToTable(Tb =>
         {
             Tb.HasCheckConstraint("PlanDurationCheck",
-                "DurationDays Between 1 and 365");
+                "DurationDays BETWEEN 1 and 365");
         });
     }
 

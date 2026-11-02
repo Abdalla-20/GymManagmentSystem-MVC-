@@ -3,14 +3,9 @@ using System.Collections;
 
 namespace GymManagmentSystem.DAL.Repositories.Interfaces
 {
-    public interface IPlanRepository
+    public interface IPlanRepository : IRepository<Plan>
     {
-        public Task<IEnumerable<Plan>> GetAllAsync(bool tracking = false);
-        public Task<Plan?> GetByIdAsync(int id);
-        public Task<int> AddAsync(Plan plan);
-        public Task<int> UpdateAsync(Plan plan);
-        public Task<int> DeleteAsync(Plan plan);
-
-
+        public Task<IEnumerable<Plan>> GetAllwithMemberShipAsync(bool tracking = false);
+    
     }
 }

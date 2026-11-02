@@ -22,7 +22,7 @@ namespace GymManagmentSystem.DAL.Data.Configurations
             builder.ToTable(tb =>
             {
                 tb.HasCheckConstraint("EmailCheck", "Email like'_%@_%._%'");
-                tb.HasCheckConstraint("PhoneCheck", "Phone like'010%' or Phone like '011%',or Phone like'012%',or Phone like'015%' ");
+                tb.HasCheckConstraint("PhoneCheck", "Phone like'010%' or Phone like '011%' or Phone like'012%' or Phone like'015%' ");
             });
 
             builder.OwnsOne(x => x.Address, address =>

@@ -5,40 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GymManagmentSystem.DAL.Repositories.Classes
 {
-    public class PlanRepository : IPlanRepository
+    public class PlanRepository :Repository<Plan> , IPlanRepository
     {
-        private readonly GymDbContext _dbcontext;
 
-        public PlanRepository(GymDbContext dbContext)
+        public PlanRepository(GymDbContext dbContext) : base(dbContext) 
         {
-            _dbcontext = dbContext;
+
         }
 
-        public async Task<int> AddAsync(Plan plan)
+        public async Task<IEnumerable<Plan>> GetAllwithMemberShipAsync(bool tracking = false)
         {
-            await _dbcontext.Plans.AddAsync(plan);
-            return await _dbcontext.SaveChangesAsync();
-        }
+            return tracking ? await _dbContext.Plans.Include(x=>x.MemberShips).ToListAsync() : await _dbContext.Plans.Include(x => x.MemberShips).AsNoTracking().ToListAsync();
 
-        public async Task<int> DeleteAsync(Plan plan)
-        {
-            _dbcontext.Plans.Remove(plan);
-            return await _dbcontext.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Plan>> GetAllAsync(bool tracking = false)
-        {
-            return tracking ? await _dbcontext.Plans.ToListAsync() :await _dbcontext.Plans.AsNoTracking().ToListAsync() ;
-        }
-
-        public async Task<Plan?> GetByIdAsync(int id)
-        {
-            return await _dbcontext.Plans.FindAsync(id);
-        }
-
-        public async Task<int> UpdateAsync(Plan plan)
-        {
-            return await _dbcontext.SaveChangesAsync();
         }
     }
 }

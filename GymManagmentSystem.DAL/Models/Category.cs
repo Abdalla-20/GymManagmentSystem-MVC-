@@ -5,5 +5,7 @@
 
         public string CategoryName { get; set; } = default!;
 
+        public ICollection<Session> Sessions { get; set; } = default!;
+
     }
 }

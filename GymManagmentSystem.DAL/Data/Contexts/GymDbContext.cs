@@ -21,7 +21,9 @@ namespace GymManagmentSystem.DAL.Data.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
-        
+        public DbSet<MemberSession> MemberSessions { get; set; }
+        public DbSet<MemberShip> MemberShips { get; set; }
+
 
     }
 }

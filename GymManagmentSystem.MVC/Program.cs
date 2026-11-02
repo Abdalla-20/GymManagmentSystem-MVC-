@@ -1,8 +1,13 @@
+using GymManagmentSystem.BLL;
+using GymManagmentSystem.BLL.Services.Members.classes;
+using GymManagmentSystem.BLL.Services.Members.Interfaces;
+using GymManagmentSystem.BLL.Services.Sessions.Classes;
+using GymManagmentSystem.BLL.Services.Sessions.Interfaces;
 using GymManagmentSystem.DAL.Data.Contexts;
+using GymManagmentSystem.DAL.Models;
 using GymManagmentSystem.DAL.Repositories.Classes;
 using GymManagmentSystem.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +19,16 @@ builder.Services.AddDbContext<GymDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection"));
 });
 
-builder.Services.AddScoped<IPlanRepository, PlanRepository>();
-    
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IMemberService,MemberService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddAutoMapper(x=>x.AddProfile(new MappingProfile()));
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
