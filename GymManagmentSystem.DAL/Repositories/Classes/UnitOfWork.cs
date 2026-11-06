@@ -11,11 +11,14 @@ namespace GymManagmentSystem.DAL.Repositories.Classes
 
         public ISessionRepository sessionRepository { get; }
 
-        public UnitOfWork(GymDbContext dbcontext, IMemberRepository memberRepository, ISessionRepository sessionRepository)
+        public ITrainerRepository trainerRepository { get; }
+
+        public UnitOfWork(GymDbContext dbcontext, IMemberRepository memberRepository, ISessionRepository sessionRepository, ITrainerRepository trainerRepository)
         {
             _dbcontext = dbcontext;
             this.memberRepository = memberRepository;
             this.sessionRepository = sessionRepository;
+            this.trainerRepository = trainerRepository;
         }
         private readonly Dictionary<string,object> Repos = [];
 

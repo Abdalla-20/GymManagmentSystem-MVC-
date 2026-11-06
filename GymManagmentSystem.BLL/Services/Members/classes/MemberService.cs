@@ -55,9 +55,7 @@ public class MemberService : IMemberService
     {
         var members = await _unitOfWork.GetRepository<Member>().GetAllAsync();
 
-
         return Result<IEnumerable<MemberViewModel>>.Ok(mapper.Map<IEnumerable<MemberViewModel>>(members));
-
     }
     public async Task<Result<MemberDetailsViewModel?>> GetMemberAsync(int? Id)
     {
@@ -84,7 +82,6 @@ public class MemberService : IMemberService
             {
                 model.MembershipStartDate = membershipActive.CreatedAt.ToString("d/M/yyyy");
                 model.MembershipEndDate = membershipActive.EndDate.ToString("d/M/yyyy");
-
 
                 var plan = await _unitOfWork.GetRepository<Plan>().GetByIdAsync(membershipActive.PlanId);
                 if (plan != null)

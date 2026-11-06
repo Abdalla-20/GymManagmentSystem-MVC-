@@ -3,6 +3,8 @@ using GymManagmentSystem.BLL.Services.Members.classes;
 using GymManagmentSystem.BLL.Services.Members.Interfaces;
 using GymManagmentSystem.BLL.Services.Sessions.Classes;
 using GymManagmentSystem.BLL.Services.Sessions.Interfaces;
+using GymManagmentSystem.BLL.Services.Trainers.classes;
+using GymManagmentSystem.BLL.Services.Trainers.Interfaces;
 using GymManagmentSystem.DAL.Data.Contexts;
 using GymManagmentSystem.DAL.Models;
 using GymManagmentSystem.DAL.Repositories.Classes;
@@ -22,7 +24,9 @@ builder.Services.AddDbContext<GymDbContext>(options =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IMemberService,MemberService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<ITrainerServices, TrainerServices>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<ITrainerRepository, TrainerRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddAutoMapper(x=>x.AddProfile(new MappingProfile()));

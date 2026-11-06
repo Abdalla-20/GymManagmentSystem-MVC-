@@ -6,6 +6,7 @@ using GymManagmentSystem.DAL.Models;
 using GymManagmentSystem.DAL.Models.Enums;
 using GymManagmentSystem.DAL.Repositories.Interfaces;
 
+
 namespace GymManagmentSystem.BLL.Services.Sessions.Classes;
 
 public class SessionService : ISessionService
@@ -43,7 +44,7 @@ public class SessionService : ISessionService
 
             if (model.Capacity < 1 || model.Capacity > 25) return Result.Validation("Capacity must be between 1 and 25");
 
-            var trainer = await _unitOfWork.GetRepository<Trainer>().GetByIdAsync(model.TrainerId);
+            var trainer = await _unitOfWork.GetRepository<GymManagmentSystem.DAL.Models.Trainer>().GetByIdAsync(model.TrainerId);
             if (trainer == null) return Result.NotFound("Trainer not found");
 
             var category = await _unitOfWork.GetRepository<Category>().GetByIdAsync(model.CategoryId);
@@ -67,7 +68,7 @@ public class SessionService : ISessionService
 
     public async Task<Result<IEnumerable<TrainerSelectedViewModel>?>> GetTrainersForDropdownAsync()
     {
-        var result = await _unitOfWork.GetRepository<Trainer>().GetAllAsync(); //
+        var result = await _unitOfWork.GetRepository<GymManagmentSystem.DAL.Models.Trainer>().GetAllAsync(); //
         var model = _mapper.Map<IEnumerable<TrainerSelectedViewModel>>(result);
 
         return Result<IEnumerable<TrainerSelectedViewModel>?>.Ok(model);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GymManagmentSystem.BLL.Services.Members.ViewModels;
 using GymManagmentSystem.BLL.Services.Sessions.ViewModels;
+using GymManagmentSystem.BLL.Services.Trainers.ViewModels;
 using GymManagmentSystem.DAL.Models;
 
 namespace GymManagmentSystem.BLL;
@@ -11,6 +12,7 @@ public class MappingProfile : Profile
     {
         MemberProfile();
         SessionProfile();
+        TrainerProfile();
     }
 
     private void MemberProfile()
@@ -48,6 +50,40 @@ public class MappingProfile : Profile
                 BuildingNumber = src.BuildingNumber
             }))
             .ForMember(dest => dest.HealthRecord, opt => opt.MapFrom(src => src.HealthRecordViewModel));
+    }
+    private void TrainerProfile()
+    {
+        CreateMap<Trainer, TrainerViewModel>()
+            .ForMember(dest => dest.Specialization, opt => opt.MapFrom(src => src.Speciality));
+
+        CreateMap<CreateTrainerViewModel, Trainer>()
+           .ForMember(dest => dest.Address, opt => opt.MapFrom(src => new Address
+           {
+               City = src.City,
+               Street = src.Street,
+               BuildingNumber = src.BuildingNumber
+           }));
+
+        CreateMap<Trainer, TrainerDetailsViewModel>()
+          .ForMember(dest => dest.Address, opt => opt.MapFrom(src => $"{src.Address.BuildingNumber} , {src.Address.Street} , {src.Address.City}"))
+          .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth.ToString("d/M/yyyy")))
+          .ForMember(dest => dest.Specialization, opt => opt.MapFrom(src => src.Speciality.ToString()));
+
+        CreateMap<Trainer, TrainerToUpdateViewModel>()
+          .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Address.City))
+          .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Address.Street))
+          .ForMember(dest => dest.BuildingNumber, opt => opt.MapFrom(src => src.Address.BuildingNumber));
+
+        CreateMap<TrainerToUpdateViewModel,Trainer>()
+           .ForMember(dest => dest.Name, opt => opt.Ignore()) 
+           .ForMember(dest => dest.DateOfBirth, opt => opt.Ignore()) 
+           .ForMember(dest => dest.Gender, opt => opt.Ignore())
+           .AfterMap((src, dest) =>
+           {
+               dest.Address.City = src.City;
+               dest.Address.Street = src.Street;
+               dest.Address.BuildingNumber = src.BuildingNumber;
+           });
     }
     private void SessionProfile()
     {

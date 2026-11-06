@@ -24,12 +24,14 @@ public class MembersController : Controller
            return RedirectToAction(nameof(Index),nameof(HomeController));
         }
     }
+
     [HttpGet]
 
     public IActionResult Create()
     {
         return View();
     }
+
     [HttpPost]
     public async Task<IActionResult> CreateMember(CreateMemberViewModel model)
     {

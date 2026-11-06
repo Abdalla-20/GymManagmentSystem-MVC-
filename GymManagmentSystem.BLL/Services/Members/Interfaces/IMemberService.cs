@@ -7,7 +7,6 @@ public interface IMemberService
 {
     public Task<Result<IEnumerable<MemberViewModel>>> GetMembersAsync();
     public Task<Result> CreateMemberAsync(CreateMemberViewModel model);
-
     public Task<Result< MemberDetailsViewModel?>> GetMemberAsync(int? Id);
     public Task<Result<HealthRecordViewModel?>> GetHealthRecordDetailsAsync(int? Id);
     public Task<Result<MemberToUpdateViewModel?>> GetMemberToUpdateAsync(int? Id);
