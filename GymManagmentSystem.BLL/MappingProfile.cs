@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using GymManagmentSystem.BLL.Services.Members.ViewModels;
+using GymManagmentSystem.BLL.Services.Plans.ViewModels;
 using GymManagmentSystem.BLL.Services.Sessions.ViewModels;
 using GymManagmentSystem.BLL.Services.Trainers.ViewModels;
 using GymManagmentSystem.DAL.Models;
@@ -13,6 +14,7 @@ public class MappingProfile : Profile
         MemberProfile();
         SessionProfile();
         TrainerProfile();
+        PlanProfile();
     }
 
     private void MemberProfile()
@@ -94,6 +96,25 @@ public class MappingProfile : Profile
         CreateMap<Trainer, TrainerSelectedViewModel>();
         CreateMap<Category, CategorySelectedViewModel>();
         CreateMap<CreateSessionViewModel, Session>();
+    }
+    private void PlanProfile()
+    {
+        CreateMap<Plan, PlansViewModel>()
+            .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.DurationDays));
+
+        CreateMap<Plan,PlansDetailesViewModel >()
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.IsActive))
+            .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.DurationDays));
+
+        CreateMap<Plan, PlansToUpdateViewModel>()
+            .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.DurationDays));
+
+        CreateMap<PlansToUpdateViewModel, Plan>()
+            .ForMember(dest => dest.DurationDays, opt => opt.MapFrom(src => src.Duration))
+            .ForMember(dest => dest.Name, opt => opt.Ignore())
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+
     }
 
 }

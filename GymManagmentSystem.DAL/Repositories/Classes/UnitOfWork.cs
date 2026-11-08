@@ -8,17 +8,17 @@ namespace GymManagmentSystem.DAL.Repositories.Classes
     {
         private readonly GymDbContext _dbcontext;
         public IMemberRepository memberRepository { get;  }
-
         public ISessionRepository sessionRepository { get; }
-
         public ITrainerRepository trainerRepository { get; }
+        public IPlanRepository planRepository { get; }
 
-        public UnitOfWork(GymDbContext dbcontext, IMemberRepository memberRepository, ISessionRepository sessionRepository, ITrainerRepository trainerRepository)
+        public UnitOfWork(GymDbContext dbcontext, IMemberRepository memberRepository, ISessionRepository sessionRepository, ITrainerRepository trainerRepository, IPlanRepository planRepository)
         {
             _dbcontext = dbcontext;
             this.memberRepository = memberRepository;
             this.sessionRepository = sessionRepository;
             this.trainerRepository = trainerRepository;
+            this.planRepository = planRepository;
         }
         private readonly Dictionary<string,object> Repos = [];
 

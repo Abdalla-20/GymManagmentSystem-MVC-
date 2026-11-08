@@ -1,11 +1,11 @@
-﻿@model Plan 
+﻿@model PlansDetailesViewModel
 <div class="container mt-5">
                     <div class="row justify-content-center">
                         <div class="col-md-6">
                             <div class="card shadow-lg border-0">
                                 @* If Plan is Active put class bg-primary-color if not bg-secondary *@
 
-                                <div class="card-header text-white text-center py-5 @(Model.IsActive ? "bg-primary-color" : "bg-secondary")">
+                                <div class="card-header text-white text-center py-5 @(Model.Status ? "bg-primary-color" : "bg-secondary")">
                                     <i class="bi bi-award display-4 mb-3"></i>
                                     <h2 class="mb-0">@Model.Name</h2>
                                 </div>
@@ -23,7 +23,7 @@
                                                 </div>
                                                 <div>
                                                     <h6 class="mb-0 text-muted">Duration</h6>
-                                                    <p class="mb-0 fw-bold">@Model.DurationDays</p>
+                                                    <p class="mb-0 fw-bold">@Model.Duration</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,7 +50,7 @@
                                                     <h6 class="mb-0 text-muted">Status</h6>
                                                     <p class="mb-0">
                                                         @* If Plan is Active *@
-                                                    @if (Model.IsActive)
+                                                    @if (Model.Status)
                                                         {
                                                             <span class="badge bg-success">
                                                                 Active

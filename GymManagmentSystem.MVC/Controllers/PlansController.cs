@@ -1,4 +1,8 @@
-﻿using GymManagmentSystem.DAL.Models;
+﻿using GymManagmentSystem.BLL.Services.Members.classes;
+using GymManagmentSystem.BLL.Services.Members.Interfaces;
+using GymManagmentSystem.BLL.Services.Plans.InterFaces;
+using GymManagmentSystem.BLL.Services.Plans.ViewModels;
+using GymManagmentSystem.DAL.Models;
 using GymManagmentSystem.DAL.Repositories.Classes;
 using GymManagmentSystem.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -6,27 +10,77 @@ using Microsoft.AspNetCore.Mvc;
 namespace GymManagmentSystem.MVC.Controllers;
 public class PlansController : Controller
 {
-  //private IPlanRepository _planRepository;
-  private IRepository<Plan> _planRepository;
-
-    public PlansController(IRepository<Plan> PlanRepository)
+    private readonly IPlansServices _planService;
+    public PlansController(IPlansServices planService)
     {
-        _planRepository = PlanRepository;
+        _planService = planService;
     }
 
     public async Task<IActionResult> Index()
     {
-        var plans = await _planRepository.GetAllAsync();
-        return View(plans);
+        var result = await _planService.GetPlansAsync();
+        if (result.Success)
+        {
+            return View(result.Value);
+        }
+        else
+        {
+            return RedirectToAction(nameof(Index), nameof(HomeController));
+        }
     }
 
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Edit(int? Id)
     {
-        var plan = await _planRepository.GetByIdAsync( id);
+        var result = await _planService.GetPlanToUpdateAsync(Id);
 
-        if (plan is null)
+        if (!result.Success)
+        {
+            TempData["ErrorMessage"] = result.error;
             return RedirectToAction(nameof(Index));
+        }
+        return View(result.Value);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(PlansToUpdateViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+        var result = await _planService.UpdatePlanAsync(model);
+        if (result.Success)
+        {
+            TempData["SuccessMessage"] = "Plan updated successfully.";
+            return RedirectToAction(nameof(Index));
+        }
         else
-        return View(plan);
+        {
+            TempData["ErrorMessage"] = result.error;
+            return View(model);
+        }
+    }
+
+    public async Task<IActionResult> Details(int? Id)
+    {
+        var result = await _planService.GetPlanAsync(Id);
+        if (!result.Success)
+        {
+            TempData["ErrorMessage"] = result.error;
+            return RedirectToAction(nameof(Index));
+        }
+        return View(result.Value);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangeStatus(int? Id)
+    {
+        var result = await _planService.StatusOfPlanAsync(Id);
+        if (!result.Success)
+        {
+            TempData["ErrorMessage"] = result.error;
+            return RedirectToAction(nameof(Index));
+        }
+        TempData["SuccessMessage"] = "Plan status changed successfully.";
+        return RedirectToAction(nameof(Index));
     }
 }
